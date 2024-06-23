@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/path/to/your/css/bootstrap.min.css">
+    <script src="/path/to/your/js/chart.min.js"></script>
+</head>
+<%- include('nav') %>
+<body>
+    <div class="container mt-5">
+        <h1>Bienvenue, <%= user.name %>!</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Profil</h5>
+                        <p class="card-text">Nom: <%= user.name %></p>
+                        <p class="card-text">Email: <%= user.email %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <canvas id="activityChart"></canvas>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Statistiques Rapides</h5>
+                        <p class="card-text">Nombre de visites: <%= stats.visits %></p>
+                        <p class="card-text">Nombre de ventes: <%= stats.sales %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Autres Infos</h5>
+                        <p class="card-text">Niveau d'accès: <%= user.accessLevel %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('activityChart').getContext('2d');
+        var activityChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <%= JSON.stringify(chartData.labels) %>,
+                datasets: [{
+                    label: 'Activité',
+                    data: <%= JSON.stringify(chartData.data) %>,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+</body>
+</html>
