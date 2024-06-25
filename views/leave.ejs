@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-4">Leave Request Form</h2>
+        <form action="/leaves" method="POST">
+            <div class="form-group">
+                <label for="start_at">Start Date</label>
+                <input type="date" class="form-control" id="start_at" name="start_at" required>
+            </div>
+            <div class="form-group">
+                <label for="end_at">End Date</label>
+                <input type="date" class="form-control" id="end_at" name="end_at" required>
+            </div>
+            <div class="form-group">
+                <label for="type">Leave Type</label>
+                <select class="form-control" id="type" name="type" required>
+                    <option value="CP">CP</option>
+                    <option value="CF">CF</option>
+                    <option value="A">A</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="employeeId">Employee ID</label>
+                <input type="text" class="form-control" id="employeeId" name="employeeId" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
