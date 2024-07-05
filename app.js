@@ -9,7 +9,7 @@ var usersRouter = require('./routes/users');
 
 
 const connectDB = require('./models/config');
-const Entreprise = require('./models/entreprise');
+const Entreprise = require('./models/company');
 const Salarié = require('./models/salarie');
 
 var app = express();
@@ -46,6 +46,71 @@ app.post('/register', (req, res) => {
   // db.saveUser({ username, email, password });
 
   res.send('Registration successful');
+});
+
+app.get('/new/employee', (req, res) => {
+  res.render('employee');
+});
+
+// Route pour traiter la soumission du formulaire
+app.post('/employee', async (req, res) => {
+  try {
+    const { lastname, firstname, email, phone, address } = req.body;
+    const newEmployee = new Employee({
+      lastname,
+      firstname,
+      email,
+      phone,
+      address
+    });
+
+    await newEmployee.save();
+    res.redirect('/employees');
+  } catch (error) {
+    res.status(500).send('Error creating employee: ' + error.message);
+  }
+});
+
+app.post('/leave', (req, res) => {
+  const { name, date, reason } = req.body;
+
+  // Ici, vous pouvez traiter les données directement ou les sauvegarder dans une base de données.
+  // Par exemple, vous pourriez utiliser un modèle Mongoose si vous avez MongoDB configuré.
+
+  // Exemple de sauvegarde des données dans une base de données MongoDB avec un modèle Mongoose
+  const newLeaveRequest = new Leave({
+    name,
+    date,
+    reason
+  });
+
+  newLeaveRequest.save()
+    .then(() => {
+      res.send('Leave request submitted successfully!');
+    })
+    .catch(err => {
+      res.status(500).send('Error processing leave request: ' + err.message);
+    });
+});
+
+// Route POST pour traiter les données du formulaire formation.ejs
+app.post('/formation', (req, res) => {
+  const { title, start_at, end_at, employeeId } = req.body;
+
+  const newFormation = new Formation({
+    title,
+    start_at,
+    end_at,
+    employeeId
+  });
+
+  newFormation.save()
+    .then(() => {
+      res.send('Formation request submitted successfully!');
+    })
+    .catch(err => {
+      res.status(500).send('Error processing formation request: ' + err.message);
+    });
 });
 
 app.get('/dashboard', function(req, res, next) {
