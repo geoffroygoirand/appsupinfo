@@ -1,18 +1,24 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+// var => let/const
+// pas besoin de bin app.listen devrait suffire
+// utiliser l'architecture MVC pour organiser le code
+// réograniser le code
+// si possible utiliser typescript avec de la POO
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+
+const indexRouter = require('./src/routes/index');
+const usersRouter = require('./src/routes/users');
 
 
-const connectDB = require('./models/config');
-const Entreprise = require('./models/company');
-const Salarié = require('./models/salarie');
+const connectDB = require('./src/models/config');
+const Entreprise = require('./src/models/company');
+const Salarié = require('./src/models/salarie');
 
-var app = express();
+const app = express();
 
 connectDB();
 
@@ -26,8 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api', indexRouter);
 
 app.post('/register', (req, res) => {
   const { username, email, password, confirm_password } = req.body;
@@ -163,5 +168,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+const port = 3000;
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+})
 
 module.exports = app;
